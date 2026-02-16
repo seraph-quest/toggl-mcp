@@ -15,7 +15,19 @@ Write tools are **not registered** in read mode — the LLM never sees them.
 
 ## Quick Start
 
-### Docker (recommended for Seraph)
+### Docker
+
+A pre-built image is available at `ghcr.io/seraph-quest/toggl-mcp`:
+
+```bash
+docker run -d \
+  -e TOGGL_API_KEY=your_token \
+  -e TOGGL_MODE=read \
+  -p 9300:9300 \
+  ghcr.io/seraph-quest/toggl-mcp
+```
+
+Or with docker compose, create a `.env` file and run:
 
 ```bash
 cp .env.example .env

@@ -1,5 +1,6 @@
 services:
   toggl-mcp:
+    image: ghcr.io/seraph-quest/toggl-mcp
     build: .
     ports:
       - "${PORT:-9300}:9300"
