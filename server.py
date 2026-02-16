@@ -81,7 +81,7 @@ def main() -> None:
     if api_key:
         holder.set_key(api_key)
 
-    mcp = FastMCP("Toggl Track")
+    mcp = FastMCP("Toggl Track", host="0.0.0.0", port=port)
 
     register_read_tools(mcp, holder)
 
