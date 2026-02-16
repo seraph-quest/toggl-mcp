@@ -1,0 +1,11 @@
+services:
+  toggl-mcp:
+    build: .
+    ports:
+      - "${PORT:-9300}:9300"
+    environment:
+      - TOGGL_API_KEY=${TOGGL_API_KEY}
+      - TOGGL_MODE=${TOGGL_MODE:-read}
+      - TRANSPORT=http
+      - PORT=9300
+    restart: unless-stopped
