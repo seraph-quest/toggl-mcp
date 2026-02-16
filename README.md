@@ -51,25 +51,27 @@ TOGGL_API_KEY=your_token uv run python server.py
 | `TRANSPORT` | `http` | `http` (streamable-http) or `stdio` |
 | `PORT` | `9300` | HTTP port (http transport only) |
 
-## Seraph Integration
+## Usage with Seraph
 
-Register via CLI:
+1. Start the server with your API key:
 
 ```bash
-./mcp.sh add toggl http://toggl-mcp:9300/mcp --desc "Toggl Track time tracking"
+docker run -d --name toggl-mcp \
+  -e TOGGL_API_KEY=your_token \
+  -p 9300:9300 \
+  ghcr.io/seraph-quest/toggl-mcp
 ```
 
-Or add to `mcp-servers.json`:
+2. Register it in Seraph:
 
-```json
-{
-  "toggl": {
-    "url": "http://toggl-mcp:9300/mcp",
-    "enabled": true,
-    "description": "Toggl Track time tracking"
-  }
-}
+```bash
+./mcp.sh add toggl http://host.docker.internal:9300/mcp --desc "Toggl Track time tracking"
+./mcp.sh enable toggl
 ```
+
+The backend (running in Docker) connects via `host.docker.internal` to reach the host machine.
+
+To enable write tools, add `-e TOGGL_MODE=readwrite` to the `docker run` command.
 
 ## Claude Desktop Integration
 
@@ -80,7 +82,7 @@ Add to your Claude Desktop MCP config:
   "mcpServers": {
     "toggl": {
       "command": "uv",
-      "args": ["run", "--directory", "/path/to/toggle-mcp", "python", "server.py"],
+      "args": ["run", "--directory", "/path/to/toggl-mcp", "python", "server.py"],
       "env": {
         "TOGGL_API_KEY": "your_token",
         "TOGGL_MODE": "readwrite",
